@@ -1,0 +1,98 @@
+<?php
+session_start();
+$conn = new mysqli("localhost","root","","real_madrid_db");
+
+// 🔍 بحث
+if(isset($_GET['search'])){
+    $s = $_GET['search'];
+    $sql = "SELECT club_info.*, categories.name AS cat_name
+            FROM club_info
+            JOIN categories ON club_info.category_id = categories.id
+            WHERE title LIKE '%$s%' 
+            OR content LIKE '%$s%'
+            OR categories.name LIKE '%$s%'";
+}else{
+    $sql = "SELECT club_info.*, categories.name AS cat_name
+            FROM club_info
+            JOIN categories ON club_info.category_id = categories.id";
+}
+
+$result = $conn->query($sql);
+$cats = $conn->query("SELECT * FROM categories");
+?>
+
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>نادي ريال مدريد</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+    <img src="https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg">
+</div>
+
+<h1>⚽ نادي ريال مدريد</h1>
+
+<p class="about">
+موقع معلومات نادي ريال مدريد الرسمي (عرض فقط للمستخدمين).
+</p>
+
+<!-- 🔍 بحث -->
+<form method="GET">
+    <input type="text" name="search" placeholder="ابحث عن بطولات، لاعبين، حراس...">
+    <button type="submit">بحث</button>
+</form>
+
+<hr>
+
+<!-- 🔐 تسجيل دخول الأدمن -->
+<?php if(!isset($_SESSION['admin'])): ?>
+
+<h3>🔒 دخول الأدمن</h3>
+<form method="POST" action="save.php">
+    <input type="password" name="pass" placeholder="كلمة السر">
+    <button name="login">دخول</button>
+</form>
+
+<?php else: ?>
+
+<p style="color:green;">✅ أنت الآن أدمن</p>
+<a href="save.php?logout=1">تسجيل خروج</a>
+
+<!-- ➕ إضافة بيانات (فقط للأدمن) -->
+<form method="POST" action="save.php">
+    <input type="text" name="title" placeholder="العنوان" required>
+    <textarea name="content" placeholder="المحتوى" required></textarea>
+
+    <select name="category">
+        <?php while($c=$cats->fetch_assoc()): ?>
+            <option value="<?= $c['id'] ?>"><?= $c['name'] ?></option>
+        <?php endwhile; ?>
+    </select>
+
+    <button name="add">💾 حفظ</button>
+</form>
+
+<?php endif; ?>
+
+<hr>
+
+<h2>📋 معلومات النادي</h2>
+
+<?php while($row = $result->fetch_assoc()): ?>
+<div class="card">
+    <h3><?= $row['title'] ?> (<?= $row['cat_name'] ?>)</h3>
+    <p><?= $row['content'] ?></p>
+</div>
+<?php endwhile; ?>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
+    background: linear-gradient(135deg, #0d47a1, #ffffff);
+}
+
+/* الحاوية */
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+/* الشعار */
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    width: 120px;
+}
+
+/* العنوان */
+h1 {
+    text-align: center;
+    color: #0d47a1;
+    margin-bottom: 10px;
+}
+
+/* الوصف */
+.about {
+    text-align: center;
+    font-size: 17px;
+    color: #444;
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+/* البحث */
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #0d47a1;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #1565c0;
+}
+
+/* الكروت */
+.card {
+    background: #f8f9fa;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 10px;
+    border-right: 5px solid #0d47a1;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.02);
+    background: #eef3ff;
+}
+
+/* النص */
+.card h3 {
+    margin: 0;
+    color: #0d47a1;
+}
+
+.card p {
+    color: #444;
+}
